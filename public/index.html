@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
+    <title>Bid</title>
+  </head>
+  <body>
+    <div class="header">
+      <input type="text" id="name-inp" placeholder="enter your name..." />
+      <button id="name-btn">Join Bidding</button>
+      <p id="title">WELCOME TO BIDDING ...</p>
+    </div>
+    <div class="bidding-container">
+      <div class="bidding-space">
+        <div>
+          <span class="price">$ </span>
+          <span class="price">0</span>
+
+          <div class="bid-btn">
+            <button class="inc">Increase by 10</button>
+            <button class="inc">Increase by 15</button>
+          </div>
+          <div style="display: flex; justify-content: center">
+            <p id="users" style="margin-right: 3px">0</p>
+            <p>user online</p>
+          </div>
+          <div style="display: flex; justify-content: center">
+            <p style="font-size: medium; margin-right: 3px">Highest Bid:</p>
+            <p id="highest-user"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      let socket = io();
+      const header = document.getElementsByClassName("header")[0];
+      const nameInp = document.getElementById("name-inp");
+      const nameInpBtn = document.getElementById("name-btn");
+      const title = document.getElementById("title");
+      const biddingContainer =
+        document.getElementsByClassName("bidding-container")[0];
+      const price = document.getElementsByClassName("price")[1];
+      const inc1 = document.getElementsByClassName("inc")[0]; // increase by 10
+      const inc2 = document.getElementsByClassName("inc")[1]; // increase by 15
+      const usersCount = document.getElementById("users");
+      const highestUser = document.getElementById("highest-user");
+
+      let userName = "";
+      nameInp.addEventListener("input", (e) => {
+        userName = e.target.value;
+      });
+      nameInpBtn.addEventListener("click", () => {
+        if (!userName) return alert("enter username!!!");
+        header.removeChild(nameInp);
+        header.removeChild(nameInpBtn);
+        title.textContent = `${title.textContent + " " + userName}`;
+        title.style.visibility = "visible";
+        biddingContainer.style.visibility = "visible";
+        socket.emit("user-join", { userName });
+      });
+      inc1.addEventListener("click", () => {
+        socket.emit("bid-update", {
+          userName,
+          new_bid_price: parseInt(price.textContent) + 10,
+          price_inc: 10,
+        });
+      });
+      inc2.addEventListener("click", () => {
+        socket.emit("bid-update", {
+          userName,
+          new_bid_price: parseInt(price.textContent) + 15,
+          price_inc: 15,
+        });
+      });
+      socket.on("new_bid_price_update", (payload) => {
+        price.textContent = payload.new_bid_price;
+      });
+      socket.on("online", (count) => {
+        console.log(typeof count);
+        usersCount.textContent = count;
+      });
+      socket.on("highest_bid_user", (userName) => {
+        highestUser.textContent = userName;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+body{
+    font-family: cursive;
+}
+.header{
+    display: flex;
+    justify-content:center;   
+}
+#name-inp{
+    width: 300px;
+    height: 45px;
+    border:2px solid rgb(147, 144, 144);
+    padding: 3px 3px 3px 3px;
+    border-radius: 7px;
+    font-size: medium;
+
+}
+#name-btn{
+    width: fit-content;
+    height: 50px;
+    background-color: rgb(16, 175, 16);
+    color:white;
+    font-size: medium;
+    font-weight: bold;
+    margin-left: 3px;
+    border-radius: 7px;
+    margin-top: 2px;
+}
+#name-btn:hover{
+    background-color: rgb(74, 152, 74);
+    cursor: pointer;
+}
+#title{
+    color: rgb(17, 175, 17);
+    font-family: cursive;
+    font-size: large;
+    font-weight: bold;
+    visibility: hidden;
+}
+
+.bidding-container{
+    display: flex;
+    justify-content: center;
+    visibility: hidden;
+}
+.bidding-space{
+    display: flex;
+    justify-content: center;
+    height: 200px;
+    width: fit-content;
+}
+.price{
+    font-size: 100px;
+    font-weight: bolder;
+    color: rgb(240, 8, 8);
+}
+
+.bid-btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 2px;
+}
+.inc{
+    width: fit-content;
+    height: 40px;
+    border-radius: 7px;
+    background-color: rgb(11, 158, 11);
+    color:white;
+    font-size: medium;
+    font-weight: bold;
+    margin:3px 3px 3px 3px;
+}
+.inc:hover{
+    background-color: rgb(18, 109, 18);
+    cursor: pointer;
+}
